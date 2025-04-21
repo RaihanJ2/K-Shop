@@ -1,13 +1,14 @@
 import axios from "axios";
 import { HistoryType } from "../types";
 
-const API_URL = "http://localhost:5000";
-
 export const fetchOrderById = async (orderId: string): Promise<HistoryType> => {
   try {
-    const res = await axios.get(`${API_URL}/history/${orderId}`, {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      `${import.meta.env.API_URL}/history/${orderId}`,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.error("Error fetching order:", error);
@@ -17,7 +18,7 @@ export const fetchOrderById = async (orderId: string): Promise<HistoryType> => {
 
 export const fetchHistory = async (): Promise<HistoryType[]> => {
   try {
-    const res = await axios.get(`${API_URL}/history`, {
+    const res = await axios.get(`${import.meta.env.API_URL}/history`, {
       withCredentials: true,
     });
     return res.data;
@@ -30,9 +31,13 @@ export const createHistory = async (
   history: HistoryType
 ): Promise<HistoryType> => {
   try {
-    const res = await axios.post(`${API_URL}/history`, history, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.API_URL}/history`,
+      history,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.error("Error creating history:", error);

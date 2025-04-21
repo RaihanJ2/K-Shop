@@ -1,13 +1,15 @@
 import axios from "axios";
 import { UserType } from "../types";
 
-const API_URL = "http://localhost:5000/auth";
-
 export const loginUser = async (userData: UserType) => {
   try {
-    const res = await axios.post(`${API_URL}/login`, userData, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.API_URL}/auth/login`,
+      userData,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.error("Error during login", error);
@@ -17,9 +19,13 @@ export const loginUser = async (userData: UserType) => {
 
 export const registerUser = async (userData: UserType) => {
   try {
-    const res = await axios.post(`${API_URL}/register`, userData, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.API_URL}/auth/register`,
+      userData,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.error("Error during registration", error);
@@ -30,7 +36,7 @@ export const registerUser = async (userData: UserType) => {
 export const logoutUser = async () => {
   try {
     const res = await axios.post(
-      `${API_URL}/logout`,
+      `${import.meta.env.API_URL}/auth/logout`,
       {},
       { withCredentials: true }
     );

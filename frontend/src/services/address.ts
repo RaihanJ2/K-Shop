@@ -1,10 +1,9 @@
 import axios from "axios";
 import { AddressType } from "../types";
-const API_URL = "http://localhost:5000";
 
 export const fetchAddress = async () => {
   try {
-    const res = await axios.get(`${API_URL}/address`, {
+    const res = await axios.get(`${import.meta.env.API_URL}/address`, {
       withCredentials: true,
     });
     return res.data;
@@ -17,7 +16,7 @@ export const fetchAddress = async () => {
 export const setAddress = async (addressId: string) => {
   try {
     const res = await axios.post(
-      `${API_URL}/address/setDefault`,
+      `${import.meta.env.API_URL}/address/setDefault`,
       { addressId },
       { withCredentials: true }
     );
@@ -30,9 +29,13 @@ export const setAddress = async (addressId: string) => {
 
 export const addAddress = async (address: AddressType) => {
   try {
-    const res = await axios.post(`${API_URL}/address/postAddress`, address, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.API_URL}/address/postAddress`,
+      address,
+      {
+        withCredentials: true,
+      }
+    );
     return res.data;
   } catch (error) {
     console.error("Error adding address:", error);
