@@ -4,7 +4,6 @@ import { useTheme } from "../context/ThemeContext";
 import DarkModeToggle from "./DarkModeToggle";
 import { useAuth } from "../context/AuthContext";
 import { logoutUser } from "../services/auth";
-import { motion } from "framer-motion";
 
 const Navbar: React.FC = () => {
   const { isDarkMode } = useTheme();
@@ -27,12 +26,10 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2" aria-label="Home">
-          <motion.i
-            className={`fa-solid fa-dragon text-3xl ${
+          <i
+            className={`fa-solid fa-dragon hover:rotate-[30deg] duration-200 text-3xl ${
               isDarkMode ? "text-amber-400" : "text-amber-600"
             }`}
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            transition={{ duration: 0.2 }}
           />
           <span className="font-bold text-xl hidden sm:block">K-Shop</span>
         </Link>

@@ -8,8 +8,8 @@ const UserSchema = new Schema({
     type: String,
     required: true,
     match: [
-      /^(?=.{8,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._' ]+(?<![_.])$/,
-      "Username invalid, it should contain 8-30 characters including alphanumeric letters, spaces, apostrophes, and be unique!",
+      /^(?=.{6,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._' ]+(?<![_.])$/,
+      "Username invalid, it should contain 6-30 characters including alphanumeric letters, spaces, apostrophes, and be unique!",
     ],
   },
   email: {

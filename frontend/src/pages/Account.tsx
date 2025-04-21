@@ -121,15 +121,6 @@ const Account: React.FC = () => {
                             </p>
                           </div>
                         </div>
-
-                        <hr className="my-4 border-gray-200 dark:border-gray-600" />
-
-                        <Link
-                          to="#"
-                          className="text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 text-sm font-medium"
-                        >
-                          Change Password
-                        </Link>
                       </div>
                     </div>
 

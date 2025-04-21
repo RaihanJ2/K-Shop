@@ -76,32 +76,35 @@ const OrderDetails: React.FC = () => {
     <section className="flex flex-col items-center m-14">
       <div className="w-full max-w-4xl">
         <div className="mb-6">
-          <Link to="/account" className="text-blue-600 hover:underline">
+          <Link to="/account" className="text-amber-400">
             &larr; Back to Account
           </Link>
         </div>
 
         <div className="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-          <h2 className="text-2xl font-bold capitalize mb-4">order details</h2>
-
+          <h2 className="text-2xl font-bold capitalize mb-4 text-gray-900">
+            order details
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <p className="text-gray-500">Order ID</p>
-              <p className="font-medium">{order._id}</p>
+              <p className="font-medium text-gray-900">{order._id}</p>
             </div>
             <div>
               <p className="text-gray-500">Order Date</p>
-              <p className="font-medium">{formatDate(order.createdAt)}</p>
+              <p className="font-medium text-gray-900">
+                {formatDate(order.createdAt)}
+              </p>
             </div>
             <div>
               <p className="text-gray-500">Total Amount</p>
-              <p className="font-bold text-lg">
+              <p className="font-bold text-lg text-gray-900">
                 ${order.totalAmount.toFixed(2)}
               </p>
             </div>
             <div>
               <p className="text-gray-500">Items</p>
-              <p className="font-medium">
+              <p className="font-medium text-gray-900">
                 {order.items.length}{" "}
                 {order.items.length === 1 ? "item" : "items"}
               </p>
@@ -110,7 +113,9 @@ const OrderDetails: React.FC = () => {
         </div>
 
         <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <h3 className="text-lg font-semibold p-4 border-b">Order Items</h3>
+          <h3 className="text-lg font-semibold p-4 border-b text-gray-900">
+            Order Items
+          </h3>
 
           <div className="divide-y">
             {order.items.map((item, index) => (
@@ -128,14 +133,14 @@ const OrderDetails: React.FC = () => {
                   </div>
                 )}
                 <div className="flex-grow">
-                  <p className="font-medium">
+                  <p className="font-medium text-gray-900">
                     {item.title || "Product not found"}
                   </p>
                   <p className="text-sm text-gray-600 mt-1">
                     {item.category && `Category: ${item.category}`}
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="text-right text-gray-900">
                   <p>
                     ${item.price.toFixed(2)} × {item.quantity}
                   </p>
@@ -149,8 +154,10 @@ const OrderDetails: React.FC = () => {
 
           <div className="bg-gray-50 p-4 border-t">
             <div className="flex justify-between text-lg">
-              <p className="font-semibold">Order Total:</p>
-              <p className="font-bold">${order.totalAmount.toFixed(2)}</p>
+              <p className="font-semibold text-gray-900">Order Total:</p>
+              <p className="font-bold text-gray-900">
+                ${order.totalAmount.toFixed(2)}
+              </p>
             </div>
           </div>
         </div>
