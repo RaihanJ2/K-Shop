@@ -2,9 +2,12 @@ import axios from "axios";
 
 export const createPaymentIntent = async (amount: number) => {
   try {
-    const response = await axios.post(`${import.meta.env.API_URL}/payment`, {
-      amount,
-    });
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/payment`,
+      {
+        amount,
+      }
+    );
     return response.data.clientSecret;
   } catch (error) {
     console.error("Error creating payment intent:", error);
@@ -15,7 +18,7 @@ export const createPaymentIntent = async (amount: number) => {
 export const cancelPaymentIntent = async (paymentIntentId: string) => {
   try {
     const response = await axios.post(
-      `${import.meta.env.API_URL}/payment/cancel`,
+      `${import.meta.env.VITE_API_URL}/payment/cancel`,
       {
         paymentIntentId,
       }

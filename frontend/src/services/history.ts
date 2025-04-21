@@ -4,7 +4,7 @@ import { HistoryType } from "../types";
 export const fetchOrderById = async (orderId: string): Promise<HistoryType> => {
   try {
     const res = await axios.get(
-      `${import.meta.env.API_URL}/history/${orderId}`,
+      `${import.meta.env.VITE_API_URL}/history/${orderId}`,
       {
         withCredentials: true,
       }
@@ -18,7 +18,7 @@ export const fetchOrderById = async (orderId: string): Promise<HistoryType> => {
 
 export const fetchHistory = async (): Promise<HistoryType[]> => {
   try {
-    const res = await axios.get(`${import.meta.env.API_URL}/history`, {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/history`, {
       withCredentials: true,
     });
     return res.data;
@@ -32,7 +32,7 @@ export const createHistory = async (
 ): Promise<HistoryType> => {
   try {
     const res = await axios.post(
-      `${import.meta.env.API_URL}/history`,
+      `${import.meta.env.VITE_API_URL}/history`,
       history,
       {
         withCredentials: true,

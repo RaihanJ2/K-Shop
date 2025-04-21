@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchCurrentUser = async () => {
   try {
-    const response = await axios.get(`${import.meta.env.API_URL}/user`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/user`, {
       withCredentials: true,
     });
     return response.data;

@@ -3,7 +3,7 @@ import { ProductType } from "../types";
 
 export const fetchProducts = async (): Promise<ProductType[]> => {
   try {
-    const res = await axios.get(`${import.meta.env.API_URL}/products`);
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
     return res.data;
   } catch (error) {
     console.error("Error fetching products", error);
@@ -22,7 +22,9 @@ export const fetchProductsById = async (
       return null;
     }
 
-    const res = await axios.get(`${import.meta.env.API_URL}/products/${id}`);
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/${id}`
+    );
     return res.data;
   } catch (error) {
     console.error(`Error fetching product ${id}:`, error);
