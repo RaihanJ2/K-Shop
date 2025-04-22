@@ -15,7 +15,7 @@ const RippleButton: React.FC<{ children: React.ReactNode }> = ({
     ripple.style.width = ripple.style.height = `${size}px`;
     ripple.style.position = "absolute";
     ripple.style.borderRadius = "50%";
-    ripple.style.backgroundColor = isDarkMode ? "white" : "black";
+    ripple.style.backgroundColor = isDarkMode ? "gray-100" : "gray-800";
     ripple.style.pointerEvents = "none";
     ripple.style.transform = "scale(0)";
     ripple.style.animation = "ripple-effect 0.6s linear";
@@ -34,7 +34,7 @@ const RippleButton: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <button
-      className="uppercase hover:scale-105 duration-200 text-center p-2 relative overflow-hidden border-2 bg-white dark:bg-transparent border-black dark:border-white text-black dark:text-white px-4 py-2 rounded-md focus:outline-none"
+      className="uppercase hover:scale-105 duration-200 text-center p-2 relative overflow-hidden border-2 bg-gray-100 dark:bg-transparent border-gray-800 dark:border-gray-100 text-gray-800 dark:text-gray-100 px-4 py-2 rounded-md focus:outline-none"
       onClick={handleRipple}
     >
       {children}

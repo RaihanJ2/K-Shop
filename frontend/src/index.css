@@ -6,16 +6,18 @@
 
 body {
   transition: background-color 0.3s, color 0.3s;
-  background-color: white;
-  color: black;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+  color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
   font-family: "Roboto", sans-serif;
 }
 
 body.dark {
   transition: background-color 0.3s, color 0.3s;
-  background-color: black;
-  color: white;
-  border-color: black;
+  --tw-text-opacity: 1;
+  background-color: rgb(3 7 18 / var(--tw-text-opacity, 1));
+  color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+
+  border-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
 
 @keyframes ripple-effect {

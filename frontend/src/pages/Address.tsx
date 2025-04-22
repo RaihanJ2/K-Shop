@@ -86,8 +86,8 @@ const Address: React.FC = () => {
                 onClick={() => handleSetDefaultAddress(address._id!)}
                 className={`border-2 p-4 rounded-md cursor-pointer ${
                   address.isDefault
-                    ? "dark:text-black text-white bg-black dark:bg-white border-blue-600 border-4"
-                    : "text-black dark:text-white border-black dark:border-white"
+                    ? "dark:text-gray-800 text-gray-100 bg-gray-800 dark:bg-gray-100 border-blue-600 border-4"
+                    : "text-gray-800 dark:text-gray-100 border-gray-800 dark:border-gray-100"
                 }`}
               >
                 <p>
@@ -123,7 +123,7 @@ const Address: React.FC = () => {
             id=""
             placeholder="Address"
             onChange={handleChange}
-            className="border-2 border-black text-black py-3 px-2 w-full rounded-md"
+            className="border-2 border-gray-800 text-gray-800 py-3 px-2 w-full rounded-md"
           />
           <input
             type="text"
@@ -131,39 +131,39 @@ const Address: React.FC = () => {
             id=""
             placeholder="Street"
             onChange={handleChange}
-            className="border-2 border-black text-black py-3 px-2 w-full rounded-md"
+            className="border-2 border-gray-800 text-gray-800 py-3 px-2 w-full rounded-md"
           />
           <input
             type="text"
             name="city"
             placeholder="City"
             onChange={handleChange}
-            className="border-2 border-black text-black py-3 px-2 w-full rounded-md"
+            className="border-2 border-gray-800 text-gray-800 py-3 px-2 w-full rounded-md"
           />
           <input
             type="text"
             name="state"
             placeholder="State"
             onChange={handleChange}
-            className="border-2 border-black text-black py-3 px-2 w-full rounded-md"
+            className="border-2 border-gray-800 text-gray-800 py-3 px-2 w-full rounded-md"
           />
           <input
             type="text"
             name="zipcode"
             placeholder="Postal/Zip Code"
             onChange={handleChange}
-            className="border-2 border-black text-black py-3 px-2 w-full rounded-md"
+            className="border-2 border-gray-800 text-gray-800 py-3 px-2 w-full rounded-md"
           />
           <input
             type="text"
             name="phone"
             placeholder="Phone"
             onChange={handleChange}
-            className="border-2 border-black text-black py-3 px-2 w-full rounded-md"
+            className="border-2 border-gray-800 text-gray-800 py-3 px-2 w-full rounded-md"
           />
           <button
             onClick={handleSubmit}
-            className="border-2 border-black dark:border-white dark:text-white text-black py-3 px-2 w-full rounded-md"
+            className="border-2 border-gray-800 dark:border-gray-100 dark:text-gray-100 text-gray-800 py-3 px-2 w-full rounded-md"
           >
             Add Address
           </button>

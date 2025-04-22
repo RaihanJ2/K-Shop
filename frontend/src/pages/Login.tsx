@@ -77,7 +77,7 @@ const Login: React.FC = () => {
   return (
     <section
       className={`min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+        isDarkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"
       }`}
     >
       <div className="max-w-md w-full space-y-8">
@@ -159,7 +159,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white ${
+              className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-100 ${
                 isDarkMode
                   ? "bg-amber-700 hover:bg-amber-800 focus:ring-amber-500"
                   : "bg-amber-600 hover:bg-amber-700 focus:ring-amber-500"
@@ -170,7 +170,7 @@ const Login: React.FC = () => {
               {isLoading ? (
                 <span className="flex items-center">
                   <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-100"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"

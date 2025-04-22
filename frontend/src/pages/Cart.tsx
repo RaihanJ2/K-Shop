@@ -134,17 +134,17 @@ const Cart: React.FC = () => {
   return (
     <section className="m-14">
       <div className="w-full h-full">
-        <h1 className="uppercase text-center text-3xl font-bold text-black dark:text-white">
+        <h1 className="uppercase text-center text-3xl font-bold text-gray-800 dark:text-gray-100">
           Cart
         </h1>
         <p className="text-center underline p-2">
-          <Link to="/" className="capitalize text-black dark:text-white">
+          <Link to="/" className="capitalize text-gray-800 dark:text-gray-100">
             Continue Shopping
           </Link>
         </p>
 
-        <div className="border-b-2 pb-4 border-black dark:border-white my-4">
-          <div className="uppercase text-l font-bold grid grid-cols-5 pb-2 border-b-2 border-black dark:border-white">
+        <div className="border-b-2 pb-4 border-gray-800 dark:border-gray-100 my-4">
+          <div className="uppercase text-l font-bold grid grid-cols-5 pb-2 border-b-2 border-gray-800 dark:border-gray-100">
             <p className="col-span-2">Product</p>
             <p className="text-center">Price</p>
             <p className="text-center">Quantity</p>
@@ -155,12 +155,12 @@ const Cart: React.FC = () => {
           ) : cart && cart.items.length > 0 ? (
             cart.items.map((item) => (
               <div
-                className="grid grid-cols-5 min-h-72 py-8 px-6 text-black dark:text-white"
+                className="grid grid-cols-5 min-h-72 py-8 px-6 text-gray-800 dark:text-gray-100"
                 key={item.ProductId._id}
               >
                 <Link
                   to={`/details/${item.ProductId._id}`}
-                  className="flex flex-row col-span-2 bg-white text-black rounded gap-4 items-center hover:opacity-80 duration-200"
+                  className="flex flex-row col-span-2 bg-gray-100 text-gray-800 rounded gap-4 items-center hover:opacity-80 duration-200"
                 >
                   <img
                     className="w-2/6 rounded p-4"
@@ -175,10 +175,10 @@ const Cart: React.FC = () => {
                   ${item.ProductId.price.toFixed(2)}
                 </p>
                 <div className="flex justify-center items-center gap-2">
-                  <div className="w-1/2 flex flex-row justify-center  text-black dark:text-white text-center rounded">
+                  <div className="w-1/2 flex flex-row justify-center  text-gray-800 dark:text-gray-100 text-center rounded">
                     <button
                       onClick={() => handleDecreaseQty(item.ProductId._id)}
-                      className="border-2 hover:scale-105 active:scale-95 duration-200 border-black w-1/4 dark:border-white p-2 rounded"
+                      className="border-2 hover:scale-105 active:scale-95 duration-200 border-gray-800 w-1/4 dark:border-gray-100 p-2 rounded"
                     >
                       <i className="fa-solid fa-minus"></i>
                     </button>
@@ -191,14 +191,14 @@ const Cart: React.FC = () => {
                     />
                     <button
                       onClick={() => handleIncreaseQty(item.ProductId._id)}
-                      className="border-2 hover:scale-105 active:scale-95 duration-200 border-black w-1/4 dark:border-white p-2 rounded"
+                      className="border-2 hover:scale-105 active:scale-95 duration-200 border-gray-800 w-1/4 dark:border-gray-100 p-2 rounded"
                     >
                       <i className="fa-solid fa-plus"></i>
                     </button>
                   </div>
                   <button
                     onClick={() => handleRemoveItem(item.ProductId._id)}
-                    className="w-1/6 py-2 uppercase rounded bg-red-600 text-white hover:scale-105 duration-200"
+                    className="w-1/6 py-2 uppercase rounded bg-red-600 text-gray-100 hover:scale-105 duration-200"
                   >
                     <i className="fa-regular fa-trash-can text-xl"></i>
                   </button>
@@ -218,7 +218,7 @@ const Cart: React.FC = () => {
             <div className="grid grid-cols-2 gap-2">
               <Link
                 to="/address"
-                className="border-2 p-4 rounded-md cursor-pointer text-center text-sm border-black dark:border-white"
+                className="border-2 p-4 rounded-md cursor-pointer text-center text-sm border-gray-800 dark:border-gray-100"
               >
                 <i className="text-4xl fa-solid fa-plus"></i>
               </Link>
@@ -231,8 +231,8 @@ const Cart: React.FC = () => {
                       text-sm 
                       ${
                         address.isDefault
-                          ? "dark:text-black text-white bg-black dark:bg-white border-blue-600 border-4"
-                          : "border-black dark:border-white"
+                          ? "dark:text-gray-800 text-gray-100 bg-gray-800 dark:bg-gray-100 border-blue-600 border-4"
+                          : "border-gray-800 dark:border-gray-100"
                       }`}
                   >
                     <p>

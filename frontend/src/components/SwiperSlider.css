@@ -1,0 +1,41 @@
+/* SwiperSlider.css */
+.swiper {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 40px;
+  position: relative;
+}
+
+.swiper-slide {
+  transition: transform 0.3s ease;
+  display: flex;
+  justify-content: center;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 20px;
+}
+
+/* Add this if you want the active slide to be emphasized */
+.swiper-slide-active {
+  z-index: 1;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}

@@ -112,7 +112,7 @@ const OrderDetails: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="bg-gray-100 border border-gray-200 rounded-lg overflow-hidden">
           <h3 className="text-lg font-semibold p-4 border-b text-gray-900">
             Order Items
           </h3>

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import SplideSlider from "../../components/Slides";
 import { fetchProductsById } from "../../services/products";
 import { addToCart } from "../../services/cart";
 import { ProductType } from "../../types";
+import RecSlide from "../../components/RecSlide";
 
 const Details = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<ProductType | null>(null);
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,11 +27,19 @@ const Details = () => {
   const handleAddToCart = async () => {
     if (!product) return;
     try {
-      await addToCart(product._id, 1);
+      await addToCart(product._id, quantity);
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
   };
+
+  const plusQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+  const minQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
   return (
     <section
       key={id}
@@ -55,6 +64,28 @@ const Details = () => {
           <h2 className="lg:text-xl md:text-lg sm:text-base text-sm w-1/6 text-center font-bold dark:text-white text-black ">
             ${product?.price}
           </h2>
+
+          <div className="flex items-center space-x-4">
+            <span className="text-gray-700 dark:text-gray-300">Quantity:</span>
+            <div className="flex border border-gray-300 dark:border-gray-600 rounded">
+              <button
+                onClick={minQuantity}
+                className="px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+              >
+                -
+              </button>
+              <span className=" cursor-default px-4 py-1 flex items-center justify-center">
+                {quantity}
+              </span>
+              <button
+                onClick={plusQuantity}
+                className="px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
           <button
             onClick={handleAddToCart}
             className="w-1/4 hover:scale-105 active:scale-95 duration-200 border-2 font-semibold border-black dark:border-white rounded py-2 text-center capitalize "
@@ -68,7 +99,7 @@ const Details = () => {
       </div>
       <div className="mx-14 h-1/2">
         <p className="uppercase font-bold text-2xl indent-8">recommended</p>
-        <SplideSlider />
+        <RecSlide />
       </div>
     </section>
   );

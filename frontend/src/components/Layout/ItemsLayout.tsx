@@ -16,9 +16,9 @@ export const ItemsLayout: React.FC<ProductType> = ({
         to={`/details/${_id}`}
         className="flex flex-col h-full rounded-lg overflow-hidden shadow-md 
             dark:bg-gray-800 dark:border-gray-700
-            bg-white border border-gray-200"
+            bg-gray-100 border border-gray-200"
       >
-        <div className="relative pt-4 px-4 flex items-center justify-center bg-white">
+        <div className="relative pt-4 px-4 flex items-center justify-center bg-gray-100">
           <span className="absolute top-2 right-2 px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800">
             {category}
           </span>

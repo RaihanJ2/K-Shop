@@ -72,7 +72,7 @@ const Payment = ({ amount, onSuccess, userId }: PaymentProps) => {
         <button
           onClick={handlePayClick}
           disabled={isLoading}
-          className="bg-blue-600 w-1/5 text-white p-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
+          className="bg-blue-600 w-1/5 text-gray-100 p-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400"
         >
           {isLoading ? "Processing..." : "Pay"}
         </button>
@@ -87,15 +87,15 @@ const Payment = ({ amount, onSuccess, userId }: PaymentProps) => {
         </Elements>
       )}
       {isComplete && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col items-center">
             <h2 className="text-2xl font-bold mb-4">Purchase Completed!</h2>
-            <p className="mb-4 dark:text-black text-white">
+            <p className="mb-4 dark:text-gray-800 text-gray-100">
               Thank you for your purchase.
             </p>
             <button
               onClick={handleCloseModal}
-              className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700"
+              className="bg-blue-600 text-gray-100 p-2 rounded-md hover:bg-blue-700"
             >
               Close
             </button>
