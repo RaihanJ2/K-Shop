@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchCurrentUser } from "../services/user";
 import { fetchAddress } from "../services/address";
 import { fetchHistory } from "../services/history";
 import { AddressType, HistoryType, UserType } from "../types";
+import { getCurrentUser } from "../services/auth";
 
 const Account: React.FC = () => {
   const [user, setUser] = useState<UserType | undefined>(undefined);
@@ -18,7 +18,7 @@ const Account: React.FC = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        const user = await fetchCurrentUser();
+        const user = await getCurrentUser();
         setUser(user);
 
         const addresses = await fetchAddress();

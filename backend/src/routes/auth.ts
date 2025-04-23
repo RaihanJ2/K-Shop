@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import User from "../models/User";
 import { isAuthenticated } from "../middleware";
 
@@ -52,11 +51,13 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
       email: user.email,
     };
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, {
-      expiresIn: "1h",
+    res.status(200).json({
+      user: {
+        _id: user._id.toString(),
+        username: user.username,
+        email: user.email,
+      },
     });
-
-    res.status(200).json({ token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error logging in" });
@@ -68,6 +69,7 @@ router.post("/logout", (req: Request, res: Response): void => {
       console.error("Error destroying session", err);
       res.status(500).json({ message: "Error logging out" });
     } else {
+      res.clearCookie("k-shop-session");
       res.status(200).json({ message: "Logout successful" });
     }
   });

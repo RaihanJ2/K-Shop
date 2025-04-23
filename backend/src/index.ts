@@ -33,7 +33,6 @@ app.use(
   }),
   session({
     name: "k-shop-session",
-
     secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
@@ -43,13 +42,12 @@ app.use(
       ttl: 24 * 60 * 60,
     }),
     cookie: {
-      secure: true,
+      // Only use secure in production environments
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "none",
-      maxAge: 1000 * 60 * 60 * 24,
-      domain: ".vercel.app", // Try this if you're on a subdomain of vercel.app
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24, // 24 hours
     },
-    proxy: true, // Add this if your app is behind a proxy (like Railway)
   })
 );
 

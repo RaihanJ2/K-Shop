@@ -8,9 +8,9 @@ import {
 } from "../services/cart";
 import { fetchAddress, setAddress } from "../services/address";
 import Payment from "../components/Payment";
-import { fetchCurrentUser } from "../services/user";
 import { AddressType, CartType, UserType } from "../types";
 import { createHistory } from "../services/history";
+import { getCurrentUser } from "../services/auth";
 
 const Cart: React.FC = () => {
   const [cart, setCart] = useState<CartType | null>(null);
@@ -31,7 +31,7 @@ const Cart: React.FC = () => {
     };
     const fetchUser = async () => {
       try {
-        const user = await fetchCurrentUser();
+        const user = await getCurrentUser();
         setUser(user);
       } catch (error) {
         console.error("Error fetching user:", error);

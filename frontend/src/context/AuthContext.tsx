@@ -1,12 +1,14 @@
 // src/context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import { UserType } from "../types";
+import { getCurrentUser, logoutUser } from "../services/auth";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  user: { _id: string; username: string; email: string } | null;
-  login: (userData: { _id: string; username: string; email: string }) => void;
+  user: UserType | null;
+  login: (userData: UserType) => void;
   logout: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,47 +17,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<{
-    _id: string;
-    username: string;
-    email: string;
-  } | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // Check if the user is logged in on app load
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/auth/me", {
-          withCredentials: true,
-        });
-        if (res.data.user) {
+        const res = await getCurrentUser();
+        if (res.user) {
           setIsLoggedIn(true);
-          setUser(res.data.user);
+          setUser(res.user);
         }
       } catch (error) {
         console.error("Error checking login status", error);
+        setIsLoggedIn(false);
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
     };
 
     checkLoginStatus();
   }, []);
 
-  const login = (userData: {
-    _id: string;
-    username: string;
-    email: string;
-  }) => {
+  const login = (userData: UserType) => {
+    if (!userData._id || !userData.username || !userData.email) {
+      console.error("Invalid user data for login", userData);
+      return;
+    }
     setIsLoggedIn(true);
     setUser(userData);
   };
 
-  const logout = () => {
-    setIsLoggedIn(false);
-    setUser(null);
+  const logout = async () => {
+    try {
+      await logoutUser();
+      setIsLoggedIn(false);
+      setUser(null);
+    } catch (error) {
+      console.error("Logout error", error);
+      setIsLoggedIn(false);
+      setUser(null);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
