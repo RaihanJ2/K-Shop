@@ -41,11 +41,13 @@ app.use(
       ttl: 24 * 60 * 60,
     }),
     cookie: {
-      secure: false,
+      secure: true,
       httpOnly: true,
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24,
+      domain: ".vercel.app", // Try this if you're on a subdomain of vercel.app
     },
+    proxy: true, // Add this if your app is behind a proxy (like Railway)
   })
 );
 
