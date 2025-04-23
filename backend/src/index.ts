@@ -32,6 +32,8 @@ app.use(
     credentials: true,
   }),
   session({
+    name: "k-shop-session",
+
     secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
