@@ -25,12 +25,15 @@ const PORT = process.env.PORT!;
 app.use(express.json());
 
 // Middleware
+app.set("trust proxy", 1);
 
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
-  }),
+  })
+);
+app.use(
   session({
     name: "k-shop-session",
     secret: process.env.SESSION_SECRET!,
@@ -46,7 +49,6 @@ app.use(
       httpOnly: true,
       sameSite: "none",
       maxAge: 1000 * 60 * 60 * 24,
-      domain: process.env.CLIENT_URL,
     },
   })
 );
