@@ -42,11 +42,10 @@ app.use(
       ttl: 24 * 60 * 60,
     }),
     cookie: {
-      // Only use secure in production environments
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       httpOnly: true,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
