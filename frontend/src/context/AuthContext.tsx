@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { UserType } from "../types";
 import { getCurrentUser, logoutUser } from "../services/auth";
@@ -25,14 +24,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const checkLoginStatus = async () => {
       try {
         const res = await getCurrentUser();
-        if (res.user) {
+
+        if (res && res.user) {
           setIsLoggedIn(true);
           setUser(res.user);
+        } else {
+          setIsLoggedIn(false);
+          setUser(null);
         }
-      } catch (error) {
-        console.error("Error checking login status", error);
-        setIsLoggedIn(false);
-        setUser(null);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        console.log("Error status:", error.response.status);
+        console.log("Error message:", error.message);
+
+        if (error.response.status === 401) {
+          setIsLoggedIn(false);
+          setUser(null);
+        }
       } finally {
         setLoading(false);
       }
@@ -53,10 +61,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = async () => {
     try {
       await logoutUser();
-      setIsLoggedIn(false);
-      setUser(null);
     } catch (error) {
       console.error("Logout error", error);
+    } finally {
       setIsLoggedIn(false);
       setUser(null);
     }
