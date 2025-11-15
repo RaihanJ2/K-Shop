@@ -1,10 +1,9 @@
 import dotenv from "dotenv";
-import passport from "passport";
+import passport, { Profile } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as Auth0Strategy } from "passport-auth0";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
-import { UserType } from "../types";
 
 dotenv.config();
 
@@ -22,13 +21,19 @@ passport.use(
           return done(null, false, { message: "User not found" });
         }
 
-        // Check password
+        if (!user.password) {
+          return done(null, false, { message: "Invalid password" });
+        }
+
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
           return done(null, false, { message: "Invalid password" });
         }
 
-        return done(null, user);
+        return done(null, {
+          ...user.toObject(),
+          _id: user._id.toString(),
+        });
       } catch (error) {
         return done(error);
       }
@@ -45,7 +50,13 @@ passport.use(
       callbackURL: "/auth/auth0/callback",
       state: false,
     },
-    async (accessToken, refreshToken, extraParams, profile, done) => {
+    async (
+      accessToken: string,
+      refreshToken: string,
+      extraParams: any,
+      profile: Profile,
+      done: (error: any, user?: any, info?: any) => void
+    ) => {
       try {
         // Find or create user based on Auth0 profile
         let user = await User.findOne({ email: profile.emails?.[0]?.value });
@@ -71,17 +82,19 @@ passport.use(
   )
 );
 
-passport.serializeUser((user: UserType, done) => {
-  done(null, user.id);
+passport.serializeUser((user: any, done) => {
+  done(null, user._id.toString());
 });
 
 passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
+  const user = await User.findById(id).lean();
+
+  if (!user) return done(null, false);
+
+  return done(null, {
+    ...user,
+    _id: user._id.toString(),
+  });
 });
 
 export default passport;

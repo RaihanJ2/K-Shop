@@ -1,16 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import productRoutes from "./routes/products";
-import cartRoutes from "./routes/carts";
-import userRoutes from "./routes/user";
-import authRoutes from "./routes/auth";
-import addressRoutes from "./routes/address";
-import paymentRoutes from "./routes/payment";
-import historyRoutes from "./routes/history";
+import productRoutes from "./routes/productRoute";
+import cartRoutes from "./routes/cartRoute";
+import authRoutes from "./routes/authRoute";
+import addressRoutes from "./routes/addressRoute";
+import paymentRoutes from "./routes/paymentRoute";
+import historyRoutes from "./routes/historyRoute";
 import connectDB from "./config/db";
 import MongoStore from "connect-mongo";
 import session from "express-session";
+import passport from "./config/passport"; // Import passport configuration
 
 declare module "express-session" {
   interface SessionData {
@@ -18,18 +18,37 @@ declare module "express-session" {
   }
 }
 
+// Extend Express User type
+declare global {
+  namespace Express {
+    interface User {
+      _id: string;
+      username: string;
+      email: string;
+      provider: string;
+    }
+  }
+}
+
 dotenv.config();
 connectDB();
 const app = express();
-const PORT = process.env.PORT!;
 
+const isProduction = process.env.NODE_ENV === "production";
+const PORT = process.env.PORT || 5000;
+
+app.set("trust proxy", 1);
+
+// Body parser
 app.use(express.json());
 
+// CORS configuration
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
-    optionsSuccessStatus: 200,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -46,31 +65,54 @@ app.use(
       ttl: 24 * 60 * 60, // 24 hours
     }),
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: isProduction,
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Important for cross-origin
-      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 1000 * 60 * 60 * 24, // 24 hours
     },
   })
 );
 
-// Debug middleware to log session info
-app.use((req, res, next) => {
-  console.log("🍪 Session ID:", req.sessionID);
-  console.log("👤 Session User:", req.session?.user);
-  console.log("🔧 Session Cookie:", req.headers.cookie);
-  next();
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Health check route
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    session: !!req.session,
+    authenticated: req.isAuthenticated ? req.isAuthenticated() : false,
+  });
 });
 
-// routes
+// Routes
 app.use("/products", productRoutes);
 app.use("/carts", cartRoutes);
-app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/address", addressRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/history", historyRoutes);
 
+// Error handling middleware
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    console.error("Error:", err);
+    res.status(err.status || 500).json({
+      message: err.message || "Internal Server Error",
+      ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    });
+  }
+);
+
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT} 🚀`);
+  console.log(`🚀 Server running on port ${PORT} 🚀`);
+  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`Client URL: ${process.env.CLIENT_URL}`);
+  console.log(`Auth0 Enabled: ${!!process.env.AUTH0_DOMAIN}`);
 });

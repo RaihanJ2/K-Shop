@@ -1,13 +1,10 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import stripe from "../config/stripe";
 
-const router = express.Router();
-
-router.post("/", async (req: Request, res: Response) => {
+export const createPaymentIntent = async (req: Request, res: Response) => {
   const { amount } = req.body;
 
   try {
-    // Convert to cents and ensure integer value using Math.round
     const amountInCents = Math.round(amount * 100);
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -23,9 +20,9 @@ router.post("/", async (req: Request, res: Response) => {
     console.error("Error creating payment intent:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-});
+};
 
-router.post("/cancel", async (req: Request, res: Response) => {
+export const cancelPaymentIntent = async (req: Request, res: Response) => {
   const { paymentIntentId } = req.body;
 
   if (!paymentIntentId) {
@@ -42,6 +39,4 @@ router.post("/cancel", async (req: Request, res: Response) => {
     console.error("Error canceling payment intent:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-});
-
-export default router;
+};

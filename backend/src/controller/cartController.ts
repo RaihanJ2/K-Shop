@@ -1,10 +1,7 @@
-import { Request, Response, Router } from "express";
+import { Request, Response } from "express";
 import Cart from "../models/Cart";
-import { isAuthenticated } from "../middleware";
 
-const router = Router();
-
-const findOrCreateCart = async (sessionId: string) => {
+export const findOrCreateCart = async (sessionId: string) => {
   let cart = await Cart.findOne({ sessionId });
   if (!cart) {
     cart = new Cart({ sessionId, items: [] });
@@ -12,8 +9,7 @@ const findOrCreateCart = async (sessionId: string) => {
   return cart;
 };
 
-// Get the cart
-router.get("/", isAuthenticated, async (req: Request, res: Response) => {
+export const getCart = async (req: Request, res: Response) => {
   try {
     const sessionId = req.sessionID;
     const carts = await Cart.findOne({ sessionId }).populate("items.ProductId");
@@ -27,10 +23,9 @@ router.get("/", isAuthenticated, async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: "Error fetching product" });
   }
-});
+};
 
-// Add items and increase quantity to the cart
-router.post("/items", isAuthenticated, async (req: Request, res: Response) => {
+export const addItemToCart = async (req: Request, res: Response) => {
   const { ProductId, quantity } = req.body;
   try {
     const sessionId = req.sessionID;
@@ -52,9 +47,9 @@ router.post("/items", isAuthenticated, async (req: Request, res: Response) => {
     console.error(error);
     res.status(500).json({ message: "Error adding product to cart" });
   }
-});
+};
 
-router.put("/items", isAuthenticated, async (req: Request, res: Response) => {
+export const updateCartItem = async (req: Request, res: Response) => {
   const sessionId = req.sessionID;
   if (!sessionId) {
     res.status(400).json({ message: "Session ID is missing" });
@@ -81,10 +76,8 @@ router.put("/items", isAuthenticated, async (req: Request, res: Response) => {
         return;
       }
 
-      // Update the quantity
       item.quantity += quantity;
 
-      // Remove the item if the quantity is 0 or less
       if (item.quantity <= 0) {
         cart.items.splice(itemIndex, 1);
       }
@@ -100,44 +93,38 @@ router.put("/items", isAuthenticated, async (req: Request, res: Response) => {
       .status(500)
       .json({ message: "Error updating product quantity in cart" });
   }
-});
-// Delete items from the cart
-router.delete(
-  "/items/:productId",
-  isAuthenticated,
-  async (req: Request, res: Response) => {
-    const { productId } = req.params;
-    try {
-      const sessionId = req.sessionID;
-      const cart = await findOrCreateCart(sessionId);
+};
 
-      const itemIndex = cart.items.findIndex(
-        (item) => item.ProductId.toString() === productId
-      );
+export const deleteCartItem = async (req: Request, res: Response) => {
+  const { productId } = req.params;
+  try {
+    const sessionId = req.sessionID;
+    const cart = await findOrCreateCart(sessionId);
 
-      if (itemIndex >= 0) {
-        cart.items.splice(itemIndex, 1);
-        await cart.save();
-        res.status(200).json(cart);
-      } else {
-        res.status(404).json({ message: "Item not found in cart" });
-      }
-    } catch (error) {
-      console.error("Error removing product from cart:", error);
-      res.status(500).json({ message: "Error removing product from cart" });
+    const itemIndex = cart.items.findIndex(
+      (item) => item.ProductId.toString() === productId
+    );
+
+    if (itemIndex >= 0) {
+      cart.items.splice(itemIndex, 1);
+      await cart.save();
+      res.status(200).json(cart);
+    } else {
+      res.status(404).json({ message: "Item not found in cart" });
     }
+  } catch (error) {
+    console.error("Error removing product from cart:", error);
+    res.status(500).json({ message: "Error removing product from cart" });
   }
-);
+};
 
-// Clear the cart
-router.delete("/", isAuthenticated, async (req: Request, res: Response) => {
+export const clearCart = async (req: Request, res: Response) => {
   try {
     const sessionId = req.sessionID;
     const cart = await Cart.findOne({ sessionId });
 
     if (!cart) {
       res.status(404).json({ message: "Cart not found" });
-
       return;
     }
 
@@ -149,6 +136,4 @@ router.delete("/", isAuthenticated, async (req: Request, res: Response) => {
     console.error("Error clearing cart:", error);
     res.status(500).json({ message: "Error clearing cart" });
   }
-});
-
-export default router;
+};

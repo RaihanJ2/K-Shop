@@ -1,11 +1,7 @@
-import { Request, Response, Router } from "express";
+import { Request, Response } from "express";
 import History from "../models/History";
-import { isAuthenticated } from "../middleware";
 
-const router = Router();
-
-// Get the history for a user
-router.get("/", isAuthenticated, async (req: Request, res: Response) => {
+export const getHistory = async (req: Request, res: Response) => {
   try {
     const userId = req.session.user?._id;
     const history = await History.find({ userId })
@@ -22,32 +18,27 @@ router.get("/", isAuthenticated, async (req: Request, res: Response) => {
     console.error("Error fetching history:", error);
     res.status(500).json({ message: "Error fetching history" });
   }
-});
+};
 
-router.get(
-  "/:orderId",
-  isAuthenticated,
-  async (req: Request, res: Response) => {
-    try {
-      const order = await History.findById(req.params.orderId)
-        .populate("items.productId")
-        .populate("addressId");
+export const getOrderById = async (req: Request, res: Response) => {
+  try {
+    const order = await History.findById(req.params.orderId)
+      .populate("items.productId")
+      .populate("addressId");
 
-      if (!order) {
-        res.status(404).json({ message: "Order not found" });
-        return;
-      }
-
-      res.json(order);
-    } catch (error) {
-      console.error("Error fetching order:", error);
-      res.status(500).json({ message: "Error fetching order" });
+    if (!order) {
+      res.status(404).json({ message: "Order not found" });
+      return;
     }
-  }
-);
 
-// Create a new history entry
-router.post("/", isAuthenticated, async (req: Request, res: Response) => {
+    res.json(order);
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    res.status(500).json({ message: "Error fetching order" });
+  }
+};
+
+export const createHistory = async (req: Request, res: Response) => {
   const userId = req.session.user?._id;
   const { items, totalAmount, addressId } = req.body;
 
@@ -72,6 +63,4 @@ router.post("/", isAuthenticated, async (req: Request, res: Response) => {
     console.error("Error creating history entry:", error);
     res.status(500).json({ message: "Error creating history entry" });
   }
-});
-
-export default router;
+};
